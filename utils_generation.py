@@ -12,6 +12,29 @@ def generate_from_df(df,
                      max_new_tokens=150,
                      do_sample=False,
                      return_only_generated=True):
+  
+  """
+  Generated model responses for all prompts in a DataFrame.
+  
+  The function supports two model types: 
+  - "norwai": uses a prompt + "Svar" format
+  - "normistral": uses the models chat template
+  
+  Parameters:
+    df: DataFrame containing the prompts to generate responses for.
+    model: The language model used for generation. 
+    tokenizer: Tokenizer belonging to the model. 
+    model_type: Either "norwAI" or "normistral"
+    prompt_col: Name of the column containing the Norwegian prompts.
+    target_col: Name of the column containing target responses, if available.
+    system_prompt: Optional system prompt to prepend to each user prompt. If None, no system prompt is used.
+    max_new_tokens: Maximum number of new tokens to generate.
+    do_sample: Whether to use sampling during generation. 
+    return_only_generated: If True, only the newly generated text is returned.
+    
+    Returns: 
+        A list of dictionaries containing prompts, generated outputs and additional metadata."""
+
   results = []
   model.eval()
 
@@ -86,7 +109,6 @@ def generate_from_df(df,
 #https://thepythoncode.com/article/calculate-rouge-score-in-python#rouge-l
 
 
-# Function to save the generated outputs from all the models
 def save_generations(
         test_df,
         results,
@@ -95,6 +117,19 @@ def save_generations(
         output_col="generated",
         result_key="model_output"
 ):
+    """
+    Saves the generated model outputs together with the original test DataFrame.
+    
+    Parameters: 
+        test_df: Original DataFrame used for generation.
+        results: List of generated outputs returned by generate_from_df.
+        output_name: Name of the output file (without extension).
+        output_dir: Directory to save the output file in.
+        output_col: Name of the new column containing generated responses. 
+        results_key: Key in results containing the generated model output. 
+        
+        Returns: 
+        None. The function saves a JSONL file to disk."""
     generated_texts = [r[result_key] for r in results]
 
     out_df = test_df.copy()

@@ -3,10 +3,21 @@ from rouge_score import rouge_scorer
 import torch
 import numpy as np
 
+
 def compute_metrics(eval_df,
                     pred_col="generated",
                     ref_col="Norwegian target response"):
+    """
+    Computes ROUGE-L and BERTScore between generated responses and reference target responses. 
+    
+    Parameters:
+        eval_df: DataFrame containing the generated responses and reference target responses.
+        pred_col: Name of the column containing generated model responses.
+        ref_col: Name of the column containing reference target responses.
 
+    Returns:
+    A dictionary containing the average ROUGE-L F1 and BERTScore F1.
+    """
     eval_df = eval_df.copy()
 
     eval_df[pred_col] = eval_df[pred_col].fillna("").astype(str)
@@ -42,8 +53,18 @@ def compute_metrics(eval_df,
     }
 
 
-# Function for using the classifier to classify responses
+
 def classify_responses(df, response_col, model, tokenizer):
+    """
+    Classifies model responses using a trained classifier.
+    Parameters:
+        df: DataFrame containing the responses to classify.
+        response_col: Name of the column containing the responses to classify.
+        model: Trained classification model.
+        tokenizer: Tokenizer belonging to the classification model.
+        
+        Returns:
+            A DataFrame with an added column containing predicted labels."""
 
     texts = df[response_col]
 
