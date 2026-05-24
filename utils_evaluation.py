@@ -78,6 +78,7 @@ def classify_responses(df, response_col, model, tokenizer):
             max_length=256
         )
 
+
         with torch.no_grad():
             outputs = model(**inputs)
 
