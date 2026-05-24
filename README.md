@@ -26,7 +26,7 @@ The project consists of the following main parts:
 This project involves safety evaluation of large language models using harmful prompts. Some generated model outputs may contain unsafe or sensitive content. To avoid sharing potentially harmful information, raw generated outputs are not included in this repository. 
 
 ## Repository structure 
-
+```text
 .
 ├── Notebooks/
 │   ├── 01_prepare_data.ipynb
